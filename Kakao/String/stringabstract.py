@@ -7,15 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1LtaiSBa8vX-fvpqX_PSck2QzRPWY8bat
 """
 
-"aabbaccc"	7
-"ababcdcdababcdcd"	9
-"abcabcdede"	8
-"abcabcabcabcdededededede"	14
-"xababcdcdababcdcd" 17
-
-s = "aabbaccc"
-sub = s[7:8]
-print(sub)
+# Final Code
 
 # solution.py
 
@@ -33,98 +25,28 @@ def solution(s):
     this_str = ""
     next_str = ""
 
-    # temporary string
+    # temporary string to store the abstract string by the length of string
     temp_str = ""
-  
-    # how many substring is in the string
-    counter = 1
-
-    # for loop for the length of strings from 1 to 1000
-    for i in range(1,int(len(s)/2) + 1):
-
-      #length of string named s
-      string = s[0:i]
-
-      #test
-      print( "i is " + "{}".format(i) + " string is "+ string)
-
-      for x in range(len(string), len(s), len(string)):
-        substring = s[x:x + len(string)]
-        print(substring)
-        
-        # substring matches
-        if string == substring:
-          if x != len(s):
-            counter += 1
-            continue
-          else:
-             # update the temp_str
-            temp_str = temp_str + "{}".format(counter)+ string
-
-        # substring does not match
-        else:
-          # if there are more than one matching
-          if counter != 1:
-            # update the temp_str
-            temp_str = temp_str + "{}".format(counter)+ string
-          # just one string 
-          else:
-            temp_str += string
-        
-        # change the working string
-        string = substring
-        # reset the counter
-        counter = 1
-
-      print("nested for loop, temp_string: " + temp_str + " string: " + string)
-
-      #check the min length
-      if answer > len(temp_str):
-        answer = len(temp_str)
-        answer_str = temp_str
-        print("this is the answer: " +"{}".format(answer)  )
-        print(answer_str)
-
-      #reset the temp_str
-      temp_str = ""
-
-
-    return answer
- 
-solution("aabbaccc")
-
-# temp 2
-
-# solution.py
-
-def solution(s):
-    answer = 0
-
-    # set the answer as the length of s
-    answer = len(s)
-    answer_str = ""
-   
-    # working string
-    string = ""
-
-  #debugging
-    this_str = ""
-    next_str = ""
-
-    # temporary string
-    temp_str = ""
+    # store the rest of the substring
+    tail = ""
   
     # how many substring is in the string
     counter = 1
 
     #flag for checking the last input or not
-    flag = false
+    flag = False
 
     # for loop for the length of strings from 1 to 1000
     for i in range(1,int(len(s)/2) + 1):
 
+      # reset the flag
+      flag = False
+
       #length of string named s
       this_str = s[0:i]
+
+      # current index
+      curr_index = 0
 
       #test
       print( "length of string is " + "{}".format(i) + " string is "+ this_str +"\n")
@@ -132,7 +54,8 @@ def solution(s):
       for x in range(len(this_str), len(s), len(this_str)):
 
   #print("{}".format(x)+"th trial" )
-        substring = s[x:x + len(this_str)]
+        curr_index = x + len(this_str)
+        substring = s[x:curr_index]
   #print("{}".format(x)+"th trial after" )
         print("current string is: " + substring)
         
@@ -149,7 +72,10 @@ def solution(s):
           else:             
             # update the temp_str
             #temp_str = temp_str + "{}".format(counter)+ string + "{}".format(x) 
-            temp_str = temp_str + "{}".format(counter)+ substring #+ "{}".format(x) 
+            temp_str = temp_str + "{}".format(counter)+ substring #+ "{}".format(x)
+
+            # check the false to indicate that this is the last string
+            flag = True 
 
         # substring does not match
                
@@ -165,17 +91,29 @@ def solution(s):
           else:
             temp_str += this_str
           print("after temp_str: " + temp_str)
-
-
-
-
         
         print("case "+ "i: " "{}".format(i) + " x: " + "{}".format(x) +" temp_string: " + temp_str + " this_str: " + this_str + " temp_str: " + temp_str + " substring:"+ substring +" counter: " + "{}".format(counter))
         #print("temp_str: " + temp_str )
         # change the working string
         this_str = substring
+        tail = substring
         # reset the counter
         counter = 1
+###########
+      # check there is a next line or not. 
+      if flag == False:
+        """
+        #it does not work using index version 
+        print("FLAG IS FALSE! SO ADD: " + s[curr_index-1:] )
+        print("{}".format(curr_index-1) + "\n")
+        temp_str += s[curr_index-1:]
+        """
+        print("FLAG IS FALSE! SO ADD: " + tail )
+        temp_str += tail
+        print(temp_str)
+
+
+##########
 
   #      print("Loop2 :" + "{}".format(x) +" temp_string: " + temp_str + " this_str: " + this_str)
 
@@ -186,7 +124,7 @@ def solution(s):
         answer = len(temp_str)
         answer_str = temp_str
         print("this is the answer: " +"{}".format(answer)  )
-        print(answer_str)
+        print(answer_str + "\n")
 
       #reset the temp_str
       temp_str = ""
@@ -195,4 +133,3 @@ def solution(s):
     return answer
  
 solution("aabbaccc")
-
