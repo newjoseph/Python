@@ -31,7 +31,49 @@ print(old)
 
 def solution(key, lock):
     answer = True
-    return answer
+
+    lenk = len(key)
+    lenl = len(lock)
+
+    #small letter is min value, capital one is max
+    x, X, y, Y = 0, 0, 0, 0
+
+    for i in range(lenk):
+      for j in range(lenk):
+        if lock[i][j] == 1:
+          if i < x:
+            x = i
+          if i > X:
+            X = i
+          if j < y:
+            y = j
+          if j > Y:
+            Y = j
+
+    # 새로운 가로
+    width = X-x+1
+    length = Y-y+1
+
+    # cut array(lock) is equal or less than key
+    if width <= lenk and length <= lenk:
+      # check all the possible cases in key
+      for i in range(lenk):
+        for j in range(lenk):
+
+          flag = True
+          
+          # check each elements in lock
+          for a in range(x, X+1):
+            for b in range(y, Y+1):
+              # if chase and bump are not matched
+              if (lock[a][b] + key[i][j]) != 1:
+                flag = False
+                break
+            if flag == False:
+              break
+          if flag:
+            answer = True
+            return answer
 
 
 key = [[0, 0, 0], [1, 0, 0], [0, 1, 1]]
