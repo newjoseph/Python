@@ -27,42 +27,60 @@ def rotation(old):
     #print("rotated: \n")
     #print(new)
     #print("done")
-
     return new
-
+  else:
+    print("not rotate!")
 
 
 def check(key, lock, x, X, y, Y):
     
-    # 새로운 가로, 세로
-    width = X-x+1
-    length = Y-y+1
+  # 새로운 가로, 세로
+  width = X-x+1
+  length = Y-y+1
 
-    lenk = len(key)
-    lenl = len(lock)
+  lenk = len(key)
+  lenl = len(lock)
 
-    # cut array(lock) is equal or less than key
-    if width <= lenk and length <= lenk:
-      # check all the possible cases in key
-      for i in range(lenk):
-        for j in range(lenk):
+  # cut array(lock) is equal or less than key
+  if width <= lenk and length <= lenk:
+    # check all the possible cases in key
+    for i in range(lenk):
+      for j in range(lenk):
 
-          flag = True
-          
-          # check each elements in lock
-          for a in range(x, X+1):
-            for b in range(y, Y+1):
-              # if chase and bump do not match
-              if (lock[a][b] + key[i][j]) != 1:
-                flag = False
-                break
-            if flag == False:
+        flag = True
+
+        # counter for i and j iteration 
+        xcomp,ycomp = 0, 0
+        
+        # check each elements in lock
+        for a in range(x, X+1):
+          ycomp = 0
+          for b in range(y, Y+1):
+
+            # debugging purpose
+            print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " a: " + "{}".format(a) + " b: " + "{}".format(b) + " xcomp: " + "{}".format(xcomp) + " ycomp: " + "{}".format(ycomp) )
+
+
+            # if chase and bump do not match
+            if (lock[a][b] + key[i+xcomp][j+ycomp]) != 1:
+              print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " a: " + "{}".format(a) + " b: " + "{}".format(b) + " FALSE!")
+              print("lock[a][b]: " + "{}".format(lock[a][b]) + "  key[i+xcomp][j+ycomp]: " + "{}".format( key[i+xcomp][j+ycomp]))
+              print("xcomp: " + "{}".format(xcomp) + " ycomp: " + "{}".format(ycomp))
+              flag = False
               break
-          if flag:
-            answer = True
-            return answer
+            ycomp += 1
+          xcomp += 1
 
-    return False
+          if flag == False:
+            break
+        
+        if flag:
+          print("Flag is true")
+          answer = True
+          return answer
+  else:
+    print("Condition not match, Lock is bigger than key")
+  return False
 
 
 
@@ -72,21 +90,36 @@ def solution(key, lock):
     lenk = len(key)
     lenl = len(lock)
 
+    print("lenk: " + "{}".format(lenk) + " lenl: " + "{}".format(lenl) )
+
     #small letter is min value, capital one is max
-    x, X, y, Y = 0, 0, 0, 0
+    x, X, y, Y = -1, -1, -1, -1
 
     for i in range(lenk):
       for j in range(lenk):
-        if lock[i][j] == 1:
+                
+        if lock[i][j] == 0:
+          print("i: " + "{}".format(i) + " j: " + "{}".format(j))
+          # If default value is 0 then how can I determine it is the first item or not.
+          if x < 0:
+            x = i
           if i < x:
             x = i
           if i > X:
             X = i
+          
+          if y < 0:
+            y = j
           if j < y:
             y = j
           if j > Y:
             Y = j
+          #print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " x: " + "{}".format(x) + " X: " + "{}".format(X) )
 
+
+    print("AFTER Loop \n x: " + "{}".format(x) + " X: " + "{}".format(X) + " y: " + "{}".format(y) + " Y: " + "{}".format(Y) )
+    
+    
     # if this is true
     if check(key, lock, x, X, y, Y):
       print("FIRST!")
@@ -110,58 +143,29 @@ def solution(key, lock):
             print("Dang, cannot open!")
             answer = False
             return answer
-
-
     
-
-
-    """
-    # 새로운 가로
-    width = X-x+1
-    length = Y-y+1
-
-    # cut array(lock) is equal or less than key
-    if width <= lenk and length <= lenk:
-      # check all the possible cases in key
-      for i in range(lenk):
-        for j in range(lenk):
-
-          flag = True
-          
-          # check each elements in lock
-          for a in range(x, X+1):
-            for b in range(y, Y+1):
-              # if chase and bump are not matched
-              if (lock[a][b] + key[i][j]) != 1:
-                flag = False
-                break
-            if flag == False:
-              break
-          if flag:
-            answer = True
-            return answer
-    """          
-
-
-
-              
 
 
         
     
 
     
-
-    return answer
+    print("HO!")
+    #return answer
 
 
 key = [[0, 0, 0], [1, 0, 0], [0, 1, 1]]
 lock = [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
 
-print(rotation(key))
-
-#rotation(key)
-
-#print(solution(key, lock))
 
 
+
+print(solution(key, lock))
+
+
+"""
+new = rotation(key)
+print("new array \n")
+print(new)
+print(check(new, lock, 1, 2, 1, 2))
+"""
