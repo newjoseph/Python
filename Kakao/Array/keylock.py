@@ -55,24 +55,32 @@ def check(key, lock, x, X, y, Y):
         # check each elements in lock
         for a in range(x, X+1):
           ycomp = 0
-          for b in range(y, Y+1):
-
-            # debugging purpose
-            print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " a: " + "{}".format(a) + " b: " + "{}".format(b) + " xcomp: " + "{}".format(xcomp) + " ycomp: " + "{}".format(ycomp) )
-
-
-            # if chase and bump do not match
-            if (lock[a][b] + key[i+xcomp][j+ycomp]) != 1:
-              print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " a: " + "{}".format(a) + " b: " + "{}".format(b) + " FALSE!")
-              print("lock[a][b]: " + "{}".format(lock[a][b]) + "  key[i+xcomp][j+ycomp]: " + "{}".format( key[i+xcomp][j+ycomp]))
-              print("xcomp: " + "{}".format(xcomp) + " ycomp: " + "{}".format(ycomp))
-              flag = False
-              break
-            ycomp += 1
-          xcomp += 1
-
-          if flag == False:
+          
+          if i+xcomp >= lenk:
             break
+          else: 
+            for b in range(y, Y+1):
+
+              # debugging purpose
+              print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " a: " + "{}".format(a) + " b: " + "{}".format(b) + " xcomp: " + "{}".format(xcomp) + " ycomp: " + "{}".format(ycomp) )
+              
+              #if index is out of range
+              #if i+xcomp >= lenk or j+ycomp >= lenk:
+              if j+ycomp >= lenk:
+                break
+              else:  
+                # if chase and bump do not match
+                if (lock[a][b] + key[i+xcomp][j+ycomp]) != 1:
+                  print("i: " + "{}".format(i) + " j: " + "{}".format(j) + " a: " + "{}".format(a) + " b: " + "{}".format(b) + " FALSE!")
+                  print("lock[a][b]: " + "{}".format(lock[a][b]) + "  key[i+xcomp][j+ycomp]: " + "{}".format( key[i+xcomp][j+ycomp]))
+                  print("xcomp: " + "{}".format(xcomp) + " ycomp: " + "{}".format(ycomp))
+                  flag = False
+                  break
+                ycomp += 1
+            xcomp += 1
+
+            if flag == False:
+              break
         
         if flag:
           print("Flag is true")
